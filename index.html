@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pixi.jsで弊社MISSIONを左から右へながす</title>
+    <script src="./pixi.js-master/bin/pixi.min.js"></script>
+</head>
+<body>
+    <div id="pixiview"></div>
+    <style>#pixiview canvas{ width: 100%; height: 100% }</style>
+    
+    <script>
+        var width = 600;
+        var height = 400;
+
+        /* ①ステージを作成 */
+        var stage = new PIXI.Container();
+
+        /* ②オブジェクトを作成 */
+        // テキスト配列
+        var text = [
+        "中小企業で働くITエンジニアの労働環境を変える",
+        "私はかつて、長い間エンジニアとして客先に常駐し仕事をしていました。",
+        "そんななかで最も感じたのは、IT業界、特に中小企業における労働環境の劣悪さ。",
+        "その劣悪な環境を改善していきたいという考えは日に日にその強さを増していきました。",
+        "その強い思いはエージェントグローという会社の原点であり、「中小企業で働くITエンジニアの労働環境を変える」という私たちのミッションの源となったのです。",
+        "エンジニアにとっての労働環境の問題は、次の5つに集約されます。",
+        "1．会社の将来への不安",
+        "2．給料への不満",
+        "3．希望する案件に参加できない",
+        "4．残業が多い",
+        "5．帰属意識が低い",
+        "私たちは、「エンジニア超第一主義」でこれらの問題に立ち向かい、すべてのエンジニアが最高の環境で最高のパフォーマンスを発揮できるよう努めてまいります。",
+        "私たちはこの方針が、結果的にお客さまに最高の満足を提供できる最良の方法であると考えております。",
+        "代表取締役　河井智也",
+        "株式会社　エージェントグロー"
+        ];
+        var textIndex = 0;
+
+        // テキストオブジェクト配列
+        var textObj = [];
+        // 移動終了位置配列
+        var endOfPosition = [];
+        // フォントサイズ
+        var fontSize = 60;
+
+        // テキストオブジェクト配列を作成し、ステージにのせる。
+        for (textIndex = 0 ; textIndex < text.length ; textIndex++) {
+            // フォントサイズはランダムで決定する（最小：30　最大：100）。randFontStyle関数内でfontSize変数を更新。
+            textObj[textIndex] = new PIXI.text(text[textIndex], randFontStyle(30, 100));
+
+            // 開始位置は画面右端で固定
+            textObj[textIndex].position.x = width;
+
+            // 縦位置 (position.y) は乱数で決定する。(最小:100 最大:300)
+            textObj[textIndex].position.y = randVerticalPosition(100, 300);
+
+            // 移動位置終了(【画面サイズ + フォントサイズ + フォントサイズ * テキストの長さ】⇦この分だけ移動する)
+            endOfPosition[textIndex] = -(width + fontSize + fontSize * text[textIndex].length);
+
+            /* ③ステージにのせる */
+            stage.addChild(textObj[textIndex]);
+        }
+        textIndex = 0;
+
+        /* ④レンダラを作成し、DOMに追加 */
+        var renderer = PIXI.autoDetectRenderer(width, height);
+        renderer.backgroundColor = 0xCC0033;
+        document.getElementById("pixiview").appendChild(renderer.view);
+
+        /* ⑤アニメーションさせる */
+        function animate() {
+            requestAnimationFrame(animate);
+
+            // 左へ移動
+            textObj[textIndex].position.x = -8;
+
+            // テキストが流れきったら
+            if(textObj[textIndex].position.x < endOfPosition[textIndex]) {
+                // 流れきったテキストを初期位置へ戻す
+                textObj[textIndex].position.x = width;
+
+                // 次のテキストを指定
+                textIndex += 1;
+                if(text.length <= textIndex) {
+                    textIndex = 0;
+                }
+            }
+            // 描画
+            renderer.render(stage);
+        }
+
+        /* 再描画 */
+
+    </script>
+</body>
+</html>
