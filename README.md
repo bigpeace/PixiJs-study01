@@ -1,2 +1,3 @@
 # PixiJs-study01
+URL
 https://www.agent-grow.com/self20percent/2016/09/23/2d%E6%8F%8F%E7%94%BB%E3%83%A9%E3%82%A4%E3%83%96%E3%83%A9%E3%83%AA%E3%80%8Cpixi-js%E3%80%8D%E3%82%92%E4%BD%BF%E3%81%A3%E3%81%A6%E5%BC%8A%E7%A4%BE%E3%81%AEmisson%E3%82%92%E6%B5%81%E3%81%99/
